@@ -1,0 +1,33 @@
+---
+repos:
+  - hooks:
+      - exclude: README.md
+        id: trailing-whitespace
+      - id: check-ast
+      - id: check-json
+      - id: check-merge-conflict
+      - id: debug-statements
+      - id: end-of-file-fixer
+      - args: [ '--fix=no' ]
+        id: mixed-line-ending
+
+    repo: https://github.com/pre-commit/pre-commit-hooks.git
+
+  - hooks:
+      - id: black
+        additional_dependencies: ['click==8.0.4']
+    repo: https://github.com/ambv/black
+
+  - hooks:
+      - id: isort
+    repo: https://github.com/pre-commit/mirrors-isort
+
+  - hooks:
+      - args: [ '-d {rules: {line-length: disable, key-ordering: {}}}' ]
+        id: yamllint
+        exclude: .pre-commit-config.yaml
+    repo: https://github.com/adrienverge/yamllint.git
+
+  - hooks:
+      - id: pylint
+    repo: https://github.com/pycqa/pylint
