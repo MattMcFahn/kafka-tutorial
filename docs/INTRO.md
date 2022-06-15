@@ -32,6 +32,9 @@ With this, it's time to look in more detail at the typical architecture of Kafka
 ## Kafka components and architecture
 
 ![Kafka components](../images/Kafka%20components.drawio.png)
+_Note - In the above diagram, the arrow for controlling consumer offsets does not always point to zookeeper in all flavours & versions of Kafka._
+_E.g., for Kafka >= 0.9, offsets can be commited to the brokers instead in a special `__consumer_offsets` topic, and this may depend on how a consumer is configured as well._
+
 
 Some key concepts in the internals of a Kafka server are:
 * **Brokers** are the actual storage layer of data

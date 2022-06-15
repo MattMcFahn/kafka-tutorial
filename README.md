@@ -13,8 +13,7 @@ The intent of this is to demo Kafka's capabilities to a data-centric audience:
 consumer applications, whilst avoiding getting into the complexities of brokers
 2) Give an intro to the internals of kafka platform components to deepen understanding whilst developing data production
  and consumption applications
-3) Provide example code for event producer and consumer applications in python (which is where data engineers are more
- likely to work)
+3) Provide example code for event producer and consumer applications in python, using `aiokafka`
 
 For a brief intro to Kafka and event streaming, check out the [introduction](./docs/INTRO.md) page.
 
@@ -24,11 +23,10 @@ For a brief intro to Kafka and event streaming, check out the [introduction](./d
 * [An overview of python kafka libraries](./docs/PYTHON-KAFKA.md)
 * [Interacting with kafka brokers and clusters](./docs/KAFKA-BROKERS.md)
 
-TODO: Anything else ?
-
 ## Pre-requisites
 
 * [Pyenv](https://github.com/pyenv/pyenv) with python >=3.9.5, for its flexible environment support
+  * Or, just any installation of python 3.9.5
 * [Poetry](https://python-poetry.org/) for packaging and dependency management
 * [Docker desktop](https://www.docker.com/products/docker-desktop/) for a local development environment
   * In particular, so we can easily set up a Kafka broker and topic
@@ -44,12 +42,14 @@ env for an event streaming system
   * Self-contained with a [Dockerfile](./producer/Dockerfile) to create a local docker image
 * [consumer](./consumer) contains code for a python-kafka consumer application to subscribe to a topic and consume events
   * Self-contained with a [Dockerfile](./consumer/Dockerfile) to create a local docker image
+<!--TODO
 * [dash-app](./dash-app) contains code to create a dash application to show some results
   * Self-contained with a [Dockerfile](./dash-app/Dockerfile) to create a local docker image
+-->
 
 ## Setup (first use)
 
-In the root of the repo, run:
+If you're committing code to the project, in the root of the repo, run:
 ```bash
 pre-commit install
 ```
@@ -64,10 +64,12 @@ Navigate to the `consumer` folder and run:
 make build
 ```
 
+<!--TODO:
 Navigate to the `dash-app` folder and run:
 ```bash
 make build
 ```
+-->
 
 This will package the applications as docker images on your local daemon, tagged as `producer` and `consumer` respectively.
 
@@ -77,27 +79,22 @@ Back in the root directory, run:
 make up profile=microservices
 ```
 
-TODO: Explain how this works / what's going on
+As a basic example of what gets brought up:
 
-TODO: Explanation of what gets brought up in the docker-compose network
+![Local env](./images/Local-kafka-architecture.drawio.png)
 
 TODO: Documentation endpoints exposed and kafdrop
 
 When you are ready to bring down the network, run:
 
 ```bash
-make down profile=microservices
+make down
 ```
 
 **TODO:**
-* Finish consumer code
 * More images / diagrams for the repo
 * Docs / tutorials
-* Make producer and consumer git submodules
-* Decide what will trigger kafka producer. Should it just send per minute or something simple?
-
-**Maybe TODO / would be nice:**
-* Artifactory in docker network and build pipeline to push there and streamline build process
+* Make producer and consumer git submodules - they're effectively standalone
 
 
 ## Helpful reading
@@ -109,7 +106,11 @@ make down profile=microservices
 ## Extra reading / other key technologies in the kafka ecosystem
 
 ### General
+* [Event driven architectures as a single source of truth](https://www.confluent.io/en-gb/blog/messaging-single-source-truth/)
 * [Kafka v. Kafka-streams v. Kafka-connect](https://www.tutorialworks.com/kafka-vs-streams-vs-connect/)
+
+### Zookeeper
+* [Intro to zookeeper](https://www.cloudkarafka.com/blog/cloudkarafka-what-is-zookeeper.html)
 
 ### Consumers
 * [Kafka connect](https://docs.confluent.io/platform/current/connect/index.html#:~:text=Kafka%20Connect%20is%20a%20free,Kafka%20Connect%20for%20Confluent%20Platform.)

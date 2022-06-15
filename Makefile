@@ -21,8 +21,4 @@ else
 endif
 
 down:
-ifdef profile
-	docker-compose -f docker-compose.yml --profile $(profile) --env-file .env down
-else
 	docker-compose -f docker-compose.yml --env-file .env down
-endif

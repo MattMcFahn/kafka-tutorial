@@ -102,7 +102,7 @@ services:
     depends_on:
       - zookeeper
     environment:
-      KAFKA_CREATE_TOPICS: "main:1:1,main_topic:1:1,unused_topic:1:1"
+      KAFKA_CREATE_TOPICS: "main_topic:1:1,unused_topic:1:1"
       KAFKA_BROKER_ID: 0
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       # https://rmoff.net/2018/08/02/kafka-listeners-explained/
