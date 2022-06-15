@@ -1,0 +1,82 @@
+[tool.poetry]
+name = "producer"
+version = "0.1.0"
+description = ""
+authors = ["Matt McFahn"]
+
+[tool.poetry.dependencies]
+python = "~3.9.5"
+aiokafka = "^0.7.2"
+ecs-logging = "^1.1.0"
+pydantic = "^1.9.1"
+python-dotenv = "^0.20.0"
+
+[tool.poetry.dev-dependencies]
+taskipy = "^1.10.1"
+pytest = "^7.0.1"
+pylint = "^2.12.2"
+black = "^22.1.0"
+isort = "^5.10.1"
+coverage = "^6.3.1"
+pytest-cov = "^3.0.0"
+requests = "^2.27.1"
+dotenv-cli = "^2.2.0"
+hypothesis = "^6.37.1"
+pytest-mock = "^3.7.0"
+pytest-asyncio = "^0.18.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
+target-version = ['py39']
+include = '\.pyi?$'
+exclude = '''
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+  )/
+)
+'''
+
+[tool.isort]
+profile = "black"
+skip = [".tox",".venv","build","dist"]
+
+[tool.pylint.messages_control]
+disable = "C0330, C0326, W1203" # Add anything else needed
+
+[tool.pylint.format]
+max-line-length = "120"
+
+[tool.pylint.MASTER]
+fail-under=9
+ignore-paths=['^test/.*$']
+# Any other config for pylint that'd go in a .pylintrc
+
+[tool.coverage.paths]
+source = ["producer"]
+
+[tool.coverage.run]
+omit = [".*", "*/site-packages/*"]
+
+
+[tool.coverage.report]
+fail_under = 85
+
+[tool.taskipy.variables]
+path = "producer"
+
+[tool.pytest.ini_options]
+asyncio_mode="auto"

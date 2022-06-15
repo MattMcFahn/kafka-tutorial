@@ -1,33 +1,55 @@
 ---
 repos:
-  - hooks:
-      - exclude: README.md
-        id: trailing-whitespace
-      - id: check-ast
-      - id: check-json
-      - id: check-merge-conflict
-      - id: debug-statements
-      - id: end-of-file-fixer
-      - args: [ '--fix=no' ]
-        id: mixed-line-ending
+    - repo: https://github.com/pre-commit/pre-commit-hooks.git
+      rev: v3.2.0
+      hooks:
+          - id: trailing-whitespace
+          - id: check-added-large-files
+          - id: check-ast
+          - id: check-json
+          - id: check-merge-conflict
+          - id: debug-statements
+          - id: end-of-file-fixer
+          - id: mixed-line-ending
+            args: ['--fix=no']
 
-    repo: https://github.com/pre-commit/pre-commit-hooks.git
+    - repo: https://github.com/ambv/black
+      rev: 20.8b1
+      hooks:
+          - id: black
+            language_version: python3.8
+            args:
+                - --line-length=120
 
-  - hooks:
-      - id: black
-        additional_dependencies: ['click==8.0.4']
-    repo: https://github.com/ambv/black
+    - repo: https://github.com/pycqa/flake8
+      rev: '3.8.4'
+      hooks:
+          - id: flake8
+            language_version: python3.8
+            args:
+                - "--max-line-length=120"
 
-  - hooks:
-      - id: isort
-    repo: https://github.com/pre-commit/mirrors-isort
+    - repo: https://github.com/pre-commit/mirrors-isort
+      rev: v5.6.4
+      hooks:
+          - id: isort
 
-  - hooks:
-      - args: [ '-d {rules: {line-length: disable, key-ordering: {}}}' ]
-        id: yamllint
-        exclude: .pre-commit-config.yaml
-    repo: https://github.com/adrienverge/yamllint.git
+    - repo: https://github.com/adrienverge/yamllint.git
+      rev: v1.17.0
+      hooks:
+          - id: yamllint
+            args: ['-d {rules: {line-length: disable, key-ordering: disable}}']
 
-  - hooks:
-      - id: pylint
-    repo: https://github.com/pycqa/pylint
+
+#    - repo: local
+#      hooks:
+#        - id: pylint
+#          name: pylint
+#          entry: pylint
+#          language: python
+#          types: [python]
+#          args:
+#            [
+#              "-rn", # Only display messages
+##              "--rcfile=pylintrc", # Link to your config file
+#            ]

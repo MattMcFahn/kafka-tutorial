@@ -1,0 +1,125 @@
+version: '3.2'
+
+services:
+  producer:
+    image: producer
+    container_name: producer
+    command: poetry run python -m producer
+    hostname: producer
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    tty: true
+    stdin_open: true
+    restart: on-failure
+    depends_on:
+      - kafka
+
+#  consumer:
+#    # from Makefile build-consumer `-t` argument
+#    image: consumer
+#    container_name: consumer
+#    env_file:
+#      - .env
+#    ports:
+#      - "6066:6066"
+#    volumes:
+#      - "./logs:/app/logs"
+#    command: -m faust -A consumer.app worker -l info
+#    tty: true
+#    stdin_open: true
+#    depends_on:
+#      - psql
+#      - kafka
+#      - zookeeper
+#      - docker-host
+#      - elk
+#    restart: on-failure
+
+  psql:
+    image: postgres:12
+    container_name: psql
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${SINK_NAME}
+      POSTGRES_USER: ${SINK_USER}
+      POSTGRES_PASSWORD: ${SINK_PASSWORD}
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5432:5432"
+    restart: on-failure
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${SINK_USER} -d ${SINK_NAME}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    restart: on-failure
+
+  kafka:
+    image: wurstmeister/kafka
+    container_name: kafka
+    hostname: kafka
+    ports:
+      - "9092:9092"
+      - '29094:29094'
+      - '29092:29092'
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_CREATE_TOPICS: "main:1:1,main_topic:1:1,unused_topic:1:1"
+      KAFKA_BROKER_ID: 0
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      # https://rmoff.net/2018/08/02/kafka-listeners-explained/
+      # This has three listeners you can experiment with.
+      # BOB for internal traffic on the Docker network
+      # FRED for traffic from the Docker-host machine (`localhost`)
+      # ALICE for traffic from outside, reaching the Docker host on the DNS name `external`
+      KAFKA_LISTENERS: BOB://kafka:29092,FRED://kafka:9092,Alice://kafka:29094
+      KAFKA_ADVERTISED_LISTENERS: BOB://kafka:29092,FRED://localhost:9092,Alice://external:29094
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: BOB:PLAINTEXT,FRED:PLAINTEXT,Alice:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: BOB
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 100
+    restart: on-failure
+
+  docker-host:
+    image: qoomon/docker-host
+    restart: on-failure
+    cap_add:
+      - 'NET_ADMIN'
+      - 'NET_RAW'
+
+  kafdrop:
+    container_name: kafdrop
+    image: obsidiandynamics/kafdrop
+    ports:
+      - "9000:9000"
+    environment:
+      KAFKA_BROKERCONNECT: "kafka:29092"
+      JVM_OPTS: "-Xms32M -Xmx64M"
+      SERVER_SERVLET_CONTEXTPATH: "/"
+    depends_on:
+      - zookeeper
+      - kafka
+
+#  elk:
+#    image: sebp/elk
+#    container_name: elk
+#    ports:
+#      - "5601:5601"
+#      - "9200:9200"
+#      - "5044:5044"
+#      - "5035:5035"
+#    environment:
+#      - ES_CONNECT_RETRY=300
+#    volumes:
+#      - './logstash.conf:/etc/logstash/conf.d/03-input.conf'
