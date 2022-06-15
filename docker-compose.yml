@@ -15,6 +15,8 @@ services:
     restart: on-failure
     depends_on:
       - kafka
+    profiles:
+      - microservices
 
 #  consumer:
 #    # from Makefile build-consumer `-t` argument
@@ -34,8 +36,32 @@ services:
 #      - kafka
 #      - zookeeper
 #      - docker-host
-#      - elk
 #    restart: on-failure
+#    profiles:
+#      - microservices
+
+#  dash:
+#    # from Makefile build-consumer `-t` argument
+#    image: dash-app
+#    container_name: dash-app
+#    env_file:
+#      - .env
+#    ports:
+#      - "6066:6066"
+#    volumes:
+#      - "./logs:/app/logs"
+#    command:
+#    tty: true
+#    stdin_open: true
+#    depends_on:
+#      - psql
+#      - kafka
+#      - zookeeper
+#      - docker-host
+#    restart: on-failure
+#    profiles:
+#      - microservices
+
 
   psql:
     image: postgres:12
@@ -55,6 +81,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    profiles:
+      - microservices
 
   zookeeper:
     image: wurstmeister/zookeeper

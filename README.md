@@ -8,7 +8,7 @@
 This repo acts as a demo project to set up an event streaming infrastructure in a local docker-compose environment, with
 a (single) python producer and consumer application.
 
-The intent of this is to demo Kafka's capabilities to a Data Engineer audience:
+The intent of this is to demo Kafka's capabilities to a data-centric audience:
 1) Expose a local environment with a Kafka broker & zookeeper set-up to enable experimentation of event producer and
 consumer applications, whilst avoiding getting into the complexities of brokers
 2) Give an intro to the internals of kafka platform components to deepen understanding whilst developing data production
@@ -42,9 +42,9 @@ env for an event streaming system
 * [producer](./producer) contains code for a python-kafka producer application
   * Self-contained with a [Dockerfile](./producer/Dockerfile) to create a local docker image
 * [consumer](./consumer) contains code for a python-kafka consumer application to subscribe to a topic and consume events
-  * Self-contained with a [Dockerfile](./producer/Dockerfile) to create a local docker image
-
-
+  * Self-contained with a [Dockerfile](./consumer/Dockerfile) to create a local docker image
+* [dash-app](./dash-app) contains code to create a dash application to show some results
+  * Self-contained with a [Dockerfile](./dash-app/Dockerfile) to create a local docker image
 
 ## Setup (first use)
 
@@ -63,12 +63,17 @@ Navigate to the `consumer` folder and run:
 make build
 ```
 
+Navigate to the `dash-app` folder and run:
+```bash
+make build
+```
+
 This will package the applications as docker images on your local daemon, tagged as `producer` and `consumer` respectively.
 
 Back in the root directory, run:
 
 ```bash
-make up
+make up profile=microservices
 ```
 
 TODO: Explain how this works / what's going on
