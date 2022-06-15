@@ -22,6 +22,7 @@ For a brief intro to Kafka and event streaming, check out the [introduction](./d
 
 * [An introduction to event streaming](./docs/INTRO.md)
 * [An overview of python kafka libraries](./docs/PYTHON-KAFKA.md)
+* [Interacting with kafka brokers and clusters](./docs/KAFKA-BROKERS.md)
 
 TODO: Anything else ?
 
@@ -80,14 +81,15 @@ TODO: Explain how this works / what's going on
 
 TODO: Explanation of what gets brought up in the docker-compose network
 
-TODO: Quick flask front end where submitting will trigger the endpoint
-
 TODO: Documentation endpoints exposed and kafdrop
 
+When you are ready to bring down the network, run:
+
+```bash
+make down profile=microservices
+```
 
 **TODO:**
-* Review dockerfile & entry point for both consumer and publisher
-* Finish producer code
 * Finish consumer code
 * More images / diagrams for the repo
 * Docs / tutorials

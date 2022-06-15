@@ -1,28 +1,22 @@
 [tool.poetry]
-name = "producer"
+name = "consumer"
 version = "0.1.0"
-description = ""
+description = "A simple kafka consumer writing to a psql database"
 authors = ["Matt McFahn"]
 
 [tool.poetry.dependencies]
-python = "~3.9.5"
+python = "^3.9"
 aiokafka = "^0.7.2"
-ecs-logging = "^1.1.0"
+ecs-logging = "^2.0.0"
 pydantic = "^1.9.1"
 python-dotenv = "^0.20.0"
+SQLAlchemy = "^1.4.37"
+psycopg2 = "^2.9.3"
 
 [tool.poetry.dev-dependencies]
-pytest = "^7.0.1"
-pylint = "^2.12.2"
-black = "^22.1.0"
+pylint = "^2.14.2"
+black = "^22.3.0"
 isort = "^5.10.1"
-coverage = "^6.3.1"
-pytest-cov = "^3.0.0"
-requests = "^2.27.1"
-dotenv-cli = "^2.2.0"
-hypothesis = "^6.37.1"
-pytest-mock = "^3.7.0"
-pytest-asyncio = "^0.18.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -65,7 +59,7 @@ ignore-paths=['^test/.*$']
 # Any other config for pylint that'd go in a .pylintrc
 
 [tool.coverage.paths]
-source = ["producer"]
+source = ["consumer"]
 
 [tool.coverage.run]
 omit = [".*", "*/site-packages/*"]

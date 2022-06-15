@@ -1,6 +1,6 @@
-# Python kafka producer
+# Python kafka consumer
 
 Key libraries:
-
-
-TODO: Subscribe to stream, consume and write to DB
+* aiokafka
+* pydantic
+* sqlalchemy core

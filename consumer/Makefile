@@ -29,7 +29,7 @@ lint:
 
 unit-test:
 	@echo "Running unit tests"
-	@poetry run pytest --cov-report term-missing --cov=producer tests/
+	@poetry run pytest --cov-report term-missing --cov=consumer tests/
 
 build:
-	docker build -f Dockerfile -t producer .
+	docker build -f Dockerfile -t consumer .

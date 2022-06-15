@@ -18,27 +18,27 @@ services:
     profiles:
       - microservices
 
-#  consumer:
-#    # from Makefile build-consumer `-t` argument
-#    image: consumer
-#    container_name: consumer
-#    env_file:
-#      - .env
-#    ports:
-#      - "6066:6066"
-#    volumes:
-#      - "./logs:/app/logs"
-#    command: -m faust -A consumer.app worker -l info
-#    tty: true
-#    stdin_open: true
-#    depends_on:
-#      - psql
-#      - kafka
-#      - zookeeper
-#      - docker-host
-#    restart: on-failure
-#    profiles:
-#      - microservices
+  consumer:
+    # from consumer/Makefile build
+    image: consumer
+    container_name: consumer
+    env_file:
+      - .env
+    ports:
+      - "6066:6066"
+    volumes:
+      - "./logs:/app/logs"
+    command: poetry run python -m consumer
+    tty: true
+    stdin_open: true
+    depends_on:
+      - psql
+      - kafka
+      - zookeeper
+      - docker-host
+    restart: on-failure
+    profiles:
+      - microservices
 
 #  dash:
 #    # from Makefile build-consumer `-t` argument

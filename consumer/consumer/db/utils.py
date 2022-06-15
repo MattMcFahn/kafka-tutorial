@@ -1,8 +1,11 @@
 """Utility functions for interacting with the database"""
 from functools import lru_cache
+from logging import getLogger
 from os import getenv
 
 from sqlalchemy import MetaData, create_engine
+
+logger = getLogger(__name__)
 
 
 def build_db_url(host: str, name: str, user: str, password: str, port: str) -> str:
@@ -16,10 +19,10 @@ def get_db_engine():
     """Get a SQLAlchemy core database engine."""
     db_url = build_db_url(
         host=getenv("HOST", "localhost"),
-        user=getenv("SINK_USER", ""),
-        port=getenv("PORT", ""),
-        name=getenv("SINK_NAME", ""),
-        password=getenv("SINK_PASSWORD", ""),
+        user=getenv("SINK_USER"),
+        port=getenv("PORT"),
+        name=getenv("SINK_NAME"),
+        password=getenv("SINK_PASSWORD"),
     )
     return create_engine(db_url)
 

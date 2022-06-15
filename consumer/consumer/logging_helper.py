@@ -13,12 +13,12 @@ from os import getenv
 from ecs_logging import StdlibFormatter
 
 LOGGING_EXTRA = {"correlation_id": f"correlation_{datetime.now():%m%d%Y:%H%M}"}
-LOG_LEVEL = getLevelName(getenv("LOG_LEVEL", "INFO"))
+LOG_LEVEL = getLevelName(getenv("LOG_LEVEL", "ERROR"))
 
 
 def setup_logging():
     """Setup logging to file and stdout as json."""
-    file_handler = FileHandler("logs/producer.log")
+    file_handler = FileHandler("logs/consumer.log")
     file_handler.setFormatter(StdlibFormatter())
 
     stream_handler = StreamHandler()
