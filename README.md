@@ -83,7 +83,7 @@ As a basic example of what gets brought up:
 
 ![Local env](./images/Local-kafka-architecture.drawio.png)
 
-TODO: Documentation endpoints exposed and kafdrop
+To see some info about how to interact with the kafka broker, see the [Kafka brokers docs](./docs/KAFKA-BROKERS.md).
 
 When you are ready to bring down the network, run:
 
@@ -91,10 +91,7 @@ When you are ready to bring down the network, run:
 make down
 ```
 
-**TODO:**
-* More images / diagrams for the repo
-* Docs / tutorials
-* Make producer and consumer git submodules - they're effectively standalone
+**TODO:** Make producer and consumer git submodules - they're effectively standalone
 
 
 ## Helpful reading
